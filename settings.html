@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Settings</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body onload="requireLogin()">
+
+<nav>
+  <a href="dashboard.html">← Back</a>
+</nav>
+
+<div class="container card">
+  <button onclick="exportNotes()">Export Notes</button>
+  <button onclick="clearAll()">Clear All Data</button>
+</div>
+
+<script src="app.js"></script>
+<script>
+function exportNotes() {
+  const text = JSON.stringify(getNotes(), null, 2);
+  const blob = new Blob([text], {type: "text/plain"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "notes.txt";
+  a.click();
+}
+
+function clearAll() {
+  if (confirm("Delete everything?")) {
+    localStorage.removeItem("notes_" + currentUser());
+    logout();
+  }
+}
+</script>
+</body>
+</html>
