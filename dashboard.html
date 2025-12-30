@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body onload="requireLogin(); loadNotes()">
+
+<nav>
+  <strong>NoteNest</strong>
+  <div>
+    <a href="settings.html">Settings</a>
+    <a href="#" onclick="logout()">Logout</a>
+  </div>
+</nav>
+
+<div class="container">
+  <button onclick="createNote()">+ New Note</button>
+  <input id="search" placeholder="Search notes" oninput="loadNotes()">
+
+  <div id="list"></div>
+</div>
+
+<script src="app.js"></script>
+<script>
+function loadNotes() {
+  const q = search.value.toLowerCase();
+  list.innerHTML = "";
+  getNotes()
+    .filter(n => n.title.toLowerCase().includes(q))
+    .forEach(n => {
+      const d = document.createElement("div");
+      d.className = "note";
+      d.innerHTML = `<strong>${n.title}</strong><br><small>${n.updated}</small>`;
+      d.onclick = () => location.href = "editor.html?id=" + n.id;
+      list.appendChild(d);
+    });
+}
+</script>
+</body>
+</html>
