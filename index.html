@@ -1,1 +1,7 @@
-
+<script>
+if (localStorage.getItem("currentUser")) {
+  location.href = "dashboard.html";
+} else {
+  location.href = "homepage.html";
+}
+</script>
