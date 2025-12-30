@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Editor</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body onload="requireLogin(); loadNote()">
+
+<nav>
+  <a href="dashboard.html">← Back</a>
+</nav>
+
+<div class="container">
+  <input id="title">
+  <textarea id="content"></textarea>
+  <div id="info"></div>
+  <button onclick="deleteNote()">Delete</button>
+</div>
+
+<script src="app.js"></script>
+<script>
+const id = new URLSearchParams(location.search).get("id");
+let notes = getNotes();
+let note = notes.find(n => n.id == id);
+
+function loadNote() {
+  title.value = note.title;
+  content.value = note.content;
+}
+
+title.oninput = content.oninput = () => {
+  note.title = title.value;
+  note.content = content.value;
+  note.updated = new Date().toLocaleString();
+  saveNotes(notes);
+  info.textContent = content.value.length + " characters";
+};
+
+function deleteNote() {
+  if (confirm("Delete note?")) {
+    saveNotes(notes.filter(n => n.id != id));
+    location.href = "dashboard.html";
+  }
+}
+</script>
+</body>
+</html>
